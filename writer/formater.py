@@ -104,11 +104,15 @@ class Formater:
             full_file_name_zip,
             "w",
             compresslevel=compresslevel,
-        ) as zip_file:
+        ) as archive:
             logging.info("Create result file.")
-            with zip_file.open(file_name, "w") as csvfile:
-                csv_writer = self.__get_csw_writer(csvfile)
+            with archive.open(file_name, "w") as csvfile:
                 print("Введите количество пользователей:")
                 count = int(input())
                 for row in keyboard_generator.generate_data(count):
-                    csv_writer.writerow(row)
+                    csvfile.write(
+                        bytes(
+                            ";".join(row) + "\r\n",
+                            "utf-8",
+                        )
+                    )

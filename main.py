@@ -7,5 +7,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
     formater = Formater()
-    formater.write_to_file_csv()
-    formater.compress_csv_file()
+
+    # formater.write_to_file_csv()
+    # formater.compress_csv_file()
+
+    formater.compress_keyboard()

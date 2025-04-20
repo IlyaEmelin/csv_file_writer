@@ -5,6 +5,7 @@ from .base_generator import BaseGenerator
 
 class KeyboardGenerator(BaseGenerator):
     def get_user(self) -> tuple[str, ...]:
+        print("-" * 100)
         print("Введите фамилию:")
         surname = input()
         print("Введите имя:")
