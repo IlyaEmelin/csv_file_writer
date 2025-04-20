@@ -1,4 +1,5 @@
 import csv
+from typing import Generator
 from datetime import datetime
 from zipfile import ZipFile
 from os import sep, remove
@@ -39,6 +40,31 @@ class Formater:
             quoting=csv.QUOTE_MINIMAL,
         )
         return csv_writer
+
+    def __base_compress(
+        self,
+        data_generator: Generator[tuple[str, ...], None, None],
+        file_name: str | None = None,
+        compresslevel: int = 5,
+    ) -> None:
+        file_name = self.__get_file_format(file_name)
+        full_file_name_zip = self.get_full_file_name_zip(file_name)
+
+        logging.info("Create zip file.")
+        with ZipFile(
+            full_file_name_zip,
+            "w",
+            compresslevel=compresslevel,
+        ) as archive:
+            logging.info("Create result file.")
+            with archive.open(file_name, "w") as csvfile:
+                for row in data_generator:
+                    csvfile.write(
+                        bytes(
+                            ";".join(row) + "\r\n",
+                            "utf-8",
+                        )
+                    )
 
     @property
     def path_to_file(self) -> str:
@@ -96,23 +122,19 @@ class Formater:
         file_name: str | None = None,
         compresslevel: int = 5,
     ) -> None:
-        file_name = self.__get_file_format(file_name)
-        full_file_name_zip = self.get_full_file_name_zip(file_name)
-
-        logging.info("Create zip file.")
-        with ZipFile(
-            full_file_name_zip,
-            "w",
+        self.__base_compress(
+            data_generator=keyboard_generator.generate_data(self.__count_line),
+            file_name=file_name,
             compresslevel=compresslevel,
-        ) as archive:
-            logging.info("Create result file.")
-            with archive.open(file_name, "w") as csvfile:
-                print("Введите количество пользователей:")
-                count = int(input())
-                for row in keyboard_generator.generate_data(count):
-                    csvfile.write(
-                        bytes(
-                            ";".join(row) + "\r\n",
-                            "utf-8",
-                        )
-                    )
+        )
+
+    def compress_auto_generate(
+        self,
+        file_name: str | None = None,
+        compresslevel: int = 5,
+    ) -> None:
+        self.__base_compress(
+            data_generator=fake_generator.generate_data(self.__count_line),
+            file_name=file_name,
+            compresslevel=compresslevel,
+        )
