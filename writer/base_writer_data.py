@@ -17,7 +17,7 @@ class BaseWriterData(ABC):
     @abstractmethod
     def compress_csv_file(
         self,
-        file_name: str,
+        csv_file_name: str,
         delete_source_file: bool = True,
         compresslevel: int = 5,
     ) -> None:
@@ -25,7 +25,7 @@ class BaseWriterData(ABC):
         Сжать файл csv в архив
 
         Args:
-            file_name: имя csv файла
+            csv_file_name: имя csv файла
             delete_source_file: удалить csv файла после сжатия
             compresslevel: степень сжатия [0: 9]
         """
@@ -48,14 +48,14 @@ class BaseWriterData(ABC):
     @abstractmethod
     def compress_auto_generate(
         self,
-        file_name: str | None = None,
+        csv_file_name: str | None = None,
         compresslevel: int = 5,
     ) -> None:
         """
         Получение фейковых данных и сжатие результата в архив
 
         Args:
-            file_name: имя csv файла для сжатия
+            csv_file_name: имя csv файла для сжатия
                 может быть пустой в этом случае имя файла сформируется на основе текущей даты и времени
             compresslevel: степень сжатия [0: 9]
         """
