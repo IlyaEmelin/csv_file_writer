@@ -8,10 +8,23 @@ from .base_generator import BaseGenerator
 
 
 class FakerGenerator(BaseGenerator):
+    """
+    Класс для получения фейковых пользователей
+    """
+
     def __init__(self):
+        """
+        Конструктор
+        """
         self.__faker = Faker("ru_RU")
 
-    def get_user(self) -> tuple[str, ...]:
+    def _get_row(self) -> tuple[str, ...]:
+        """
+            Данные о фейковых пользователях
+
+        Returns:
+            tuple[str, ...]: список значений в колонках
+        """
         if randrange(2):
             get_last_name = self.__faker.last_name_female
             get_first_name = self.__faker.first_name_female
@@ -31,20 +44,6 @@ class FakerGenerator(BaseGenerator):
             self.__faker.postcode(),  # 8
             self.__faker.address(),  # 9
         )
-
-    def generate_data(
-        self,
-        count_line: int,
-    ) -> Generator[
-        tuple[str, ...],
-        None,
-        None,
-    ]:
-        yield fake_generator.get_head()
-        for i in range(count_line):
-            if i * 100 % count_line == 0:
-                logging.info(f"write {i * 100 // count_line} %")
-            yield self.get_user()
 
 
 fake_generator = FakerGenerator()

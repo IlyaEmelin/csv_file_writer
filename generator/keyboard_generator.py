@@ -4,7 +4,17 @@ from .base_generator import BaseGenerator
 
 
 class KeyboardGenerator(BaseGenerator):
-    def get_user(self) -> tuple[str, ...]:
+    """
+    Класс для получения пользователей введенных с клавиатуры
+    """
+
+    def _get_row(self) -> tuple[str, ...]:
+        """
+            Данные о пользователях введенных с клавиатуры
+
+        Returns:
+            tuple[str, ...]: список значений в колонках
+        """
         print("-" * 100)
         print("Введите фамилию:")
         surname = input()
@@ -38,18 +48,6 @@ class KeyboardGenerator(BaseGenerator):
             postal_code,
             address,
         )
-
-    def generate_data(
-        self,
-        count_line: int,
-    ) -> Generator[
-        tuple[str, ...],
-        None,
-        None,
-    ]:
-        yield self.get_head()
-        for __ in range(count_line):
-            yield self.get_user()
 
 
 keyboard_generator = KeyboardGenerator()
