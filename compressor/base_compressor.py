@@ -24,6 +24,8 @@ class BaseCompressor(ABC):
 
     @staticmethod
     def _get_file_name(full_file_name_csv: str) -> str:
+        # Докстринги лучше писать в одном стиле( с большой буквы первой как выше например)
+        # В целом тут можно обойтись без него - говорящее имя функции говорит обо всем
         """
         получить имя файла на основе полного пути к нему
 
@@ -34,12 +36,13 @@ class BaseCompressor(ABC):
 
         """
         return full_file_name_csv.split(os.sep)[-1]
-
+    # Эти два методы выглядят как два разных доп класса для масшабирования
     @abstractmethod
     def compress_by_generator(
         self,
         data_generator: Generator[tuple[str, ...], None, None],
         full_csv_file_name: str,
+        # Магическое число - вынеси в сетиннги
         compresslevel: int = 5,
     ) -> None:
         """
@@ -64,3 +67,4 @@ class BaseCompressor(ABC):
             full_file_name_csv: полный путь к csv файлу
             compresslevel: уровень сжатия файла
         """
+    # Лучше заставлять разрабов переопределять через NotEmplementError

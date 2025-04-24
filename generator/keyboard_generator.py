@@ -15,6 +15,7 @@ class KeyboardGenerator(BaseGenerator):
         Returns:
             tuple[str, ...]: список значений в колонках
         """
+        # А если их будет 100? сделай нормально
         print("-" * 100)
         print("Введите фамилию:")
         surname = input()

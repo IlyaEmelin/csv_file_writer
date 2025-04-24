@@ -13,7 +13,9 @@ class ZipFileCompressor(BaseCompressor):
 
     END_ROW = "\r\n"
 
+    # Типизация!
     def __init__(self, delimiter, encoding):
+        # В конструкторе докстринг лишний чаще всего
         """
         Конструктор
 

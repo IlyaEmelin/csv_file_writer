@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class BaseWriterData(ABC):
+    # Не нравится разделение по методам - сделай универсальный интерфейс
     @abstractmethod
     def write_fake_data_to_file_csv(self, file_name: str | None = None) -> str:
         """
@@ -14,6 +15,7 @@ class BaseWriterData(ABC):
              str: имя созданного файла
         """
 
+    # Три по сути свой одинаковыхх функции отличающиеся только действие - если их будет 50 - будет 50 функций?
     @abstractmethod
     def compress_csv_file(
         self,
