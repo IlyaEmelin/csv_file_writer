@@ -8,6 +8,8 @@ class BaseCompressor(ABC):
     Базовый класс для сжатия файлов
     """
 
+    DEFAULT_COMPRESSLEVEL = 5
+
     @staticmethod
     def _get_full_file_name_zip(full_file_name_csv: str) -> str:
         """
@@ -25,7 +27,7 @@ class BaseCompressor(ABC):
     @staticmethod
     def _get_file_name(full_file_name_csv: str) -> str:
         """
-        получить имя файла на основе полного пути к нему
+        Получить имя файла на основе полного пути к нему
 
         Args:
             full_file_name_csv: полный путь к файлу и его название
@@ -40,7 +42,7 @@ class BaseCompressor(ABC):
         self,
         data_generator: Generator[tuple[str, ...], None, None],
         full_csv_file_name: str,
-        compresslevel: int = 5,
+        compresslevel: int = DEFAULT_COMPRESSLEVEL,
     ) -> None:
         """
             Сохранения данных в файл архива напрямую из генератора данных

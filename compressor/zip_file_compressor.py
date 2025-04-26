@@ -13,9 +13,9 @@ class ZipFileCompressor(BaseCompressor):
 
     END_ROW = "\r\n"
 
-    def __init__(self, delimiter, encoding):
+    def __init__(self, delimiter: str, encoding: str):
         """
-        Конструктор
+        Класс для сжатия файлов на основе ZipFile класса
 
         Args:
             delimiter: разделитель колонок

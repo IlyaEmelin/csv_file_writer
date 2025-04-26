@@ -18,9 +18,12 @@ class FakerGenerator(BaseGenerator):
         """
         self.__faker = Faker("ru_RU")
 
-    def _get_row(self) -> tuple[str, ...]:
+    def _get_row(self, num: int) -> tuple[str, ...]:
         """
             Данные о фейковых пользователях
+
+        Args:
+            num: номер пользователя с 0
 
         Returns:
             tuple[str, ...]: список значений в колонках

@@ -41,10 +41,12 @@ class BaseGenerator:
         )
 
     @abstractmethod
-    def _get_row(self) -> tuple[str, ...]:
+    def _get_row(self, num: int) -> tuple[str, ...]:
         """
             Список значений в колонках
             длины кортежей из _get_head и _get_row должны совпадать
+        Args:
+            num: номер пользователя с 0
 
         Returns:
             tuple[str, ...]: список значений в колонках
@@ -73,7 +75,7 @@ class BaseGenerator:
         for i in range(count_line):
             if i * 100 % count_line == 0:
                 logging.info(f"write {i * 100 // count_line} %")
-            row = self._get_row()
+            row = self._get_row(i)
             if (len_row := len(row)) != len_head:
                 logging.error(
                     (

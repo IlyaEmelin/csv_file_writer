@@ -8,34 +8,27 @@ class KeyboardGenerator(BaseGenerator):
     Класс для получения пользователей введенных с клавиатуры
     """
 
-    def _get_row(self) -> tuple[str, ...]:
+    def _get_row(self, num: int) -> tuple[str, ...]:
         """
-            Данные о пользователях введенных с клавиатуры
+        Данные о пользователях введенных с клавиатуры
+
+        Args:
+            num: номер пользователя с 0
 
         Returns:
             tuple[str, ...]: список значений в колонках
         """
-        print("-" * 100)
-        print("Введите фамилию:")
-        surname = input()
-        print("Введите имя:")
-        name = input()
-        print("Введите номер телефона:")
-        phone_number = input()
-        print("Введите сайт:")
-        website = input()
-        print("Введите email:")
-        email = input()
-        print("Введите профессию:")
-        profession = input()
-        print("Введите компанию:")
-        company = input()
-        print("Введите название страны:")
-        country = input()
-        print("Введите почтовый индекс:")
-        postal_code = input()
-        print("Введите полный адрес:")
-        address = input()
+        print(f"--- Введите данные о пользователе {num + 1} ---")
+        surname = input("Введите фамилию:")
+        name = input("Введите имя:")
+        phone_number = input("Введите номер телефона:")
+        website = input("Введите сайт:")
+        email = input("Введите email:")
+        profession = input("Введите профессию:")
+        company = input("Введите компанию:")
+        country = input("Введите название страны:")
+        postal_code = input("Введите почтовый индекс:")
+        address = input("Введите полный адрес:")
         return (
             surname,
             name,
