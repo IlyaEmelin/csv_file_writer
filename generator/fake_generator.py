@@ -16,6 +16,7 @@ class FakerGenerator(BaseGenerator):
         """
         Конструктор
         """
+        super().__init__()
         self.__faker = Faker("ru_RU")
 
     def _get_row(self, num: int) -> tuple[str, ...]:
