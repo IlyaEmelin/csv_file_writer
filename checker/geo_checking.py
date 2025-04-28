@@ -2,6 +2,7 @@ from base_checker import BaseChecker
 from time import sleep
 from functools import lru_cache
 from geopy.geocoders import Nominatim
+import logging
 
 from checker.geo_type import GeoType
 
@@ -56,11 +57,13 @@ class GeoChecking(BaseChecker):
             sleep(SLEEP_SECONDS)
 
             if location is None:
-                return (
+                text = (
                     f"{geo_data} - {text_name} является фейковым.\n"
                     "Не прошел валидацию на основе данных с "
                     "сайта openstreetmap."
                 )
+                logging.warning(text)
+                return text
         return ""
 
     def check(self, *args) -> str:
