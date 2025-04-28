@@ -31,7 +31,7 @@ class ZipFileCompressor(BaseCompressor):
         compresslevel: int = 5,
     ) -> None:
         """
-            Сохранения данных в файл архива напрямую из генератора данных
+        Сохранения данных в файл архива напрямую из генератора данных
 
         Args:
             data_generator: генератор данных сохраняемый в архив
@@ -63,7 +63,7 @@ class ZipFileCompressor(BaseCompressor):
         compresslevel: int = 5,
     ) -> None:
         """
-            Сохранения данных в файл архива из csv файла
+        Сохранения данных в файл архива из csv файла
 
         Args:
             full_file_name_csv: полный путь к csv файлу

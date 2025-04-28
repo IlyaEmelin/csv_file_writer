@@ -15,7 +15,7 @@ class BaseGenerator:
         # Добавлять в результат колонку с проблемами
         self.add_row_problem = False
 
-    def __check_row(self, row: tuple[str, ...]) -> str:
+    def _check_row(self, row: tuple[str, ...]) -> str:
         """
         Проверка переданной строчки значений
 
@@ -123,15 +123,14 @@ class BaseGenerator:
             tuple[str, ...]: полученная колонка
         """
         head = self._get_head()
-
-        self.__check_row(head)
+        self._check_row(head)
 
         yield head
         for i in range(count_line):
             if i * 100 % count_line == 0:
                 logging.info(f"write {i * 100 // count_line} %")
             row = self._get_row(i)
-            text_problem = self.__check_row(row)
+            text_problem = self._check_row(row)
             if self.add_row_problem:
                 row = tuple(chain(row, (text_problem,)))
             yield row

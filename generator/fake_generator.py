@@ -1,8 +1,6 @@
-from typing import Generator
 from random import randrange
 
 from faker import Faker
-import logging
 
 from .base_generator import BaseGenerator
 
@@ -21,10 +19,10 @@ class FakerGenerator(BaseGenerator):
 
     def _get_row(self, num: int) -> tuple[str, ...]:
         """
-            Данные о фейковых пользователях
+        Данные о фейковых пользователях
 
         Args:
-            num: номер пользователя с 0
+            num: номер строчки с 0
 
         Returns:
             tuple[str, ...]: список значений в колонках
