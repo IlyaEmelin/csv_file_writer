@@ -1,3 +1,4 @@
+from itertools import chain
 from abc import abstractmethod
 from typing import Generator
 import logging
@@ -11,6 +12,8 @@ class BaseGenerator:
     def __init__(self):
         """Базовый класс для получения данных"""
         self.__checkers: list[tuple[tuple[int, ...] | None, BaseChecker]] = []
+        # Добавлять в результат колонку с проблемами
+        self.add_row_problem = False
 
     def __check_row(self, row: tuple[str, ...]) -> str:
         """
@@ -68,26 +71,14 @@ class BaseGenerator:
         """Удаляет все классы проверки"""
         self.__checkers.clear()
 
-    @staticmethod
-    def _get_head() -> tuple[
-        str,
-        str,
-        str,
-        str,
-        str,
-        str,
-        str,
-        str,
-        str,
-        str,
-    ]:
+    def _get_head(self) -> tuple[str, ...]:
         """
             Список название получаемых колонок
 
         Returns:
             tuple[str, ...]: название колонок которые мы хотим получить
         """
-        return (
+        head = (
             "Фамилия",
             "Имя",
             "Номер телефона",
@@ -99,6 +90,8 @@ class BaseGenerator:
             "Почтовый индекс",
             "Полный адрес",
         )
+        if self.add_row_problem:
+            return tuple(chain(head, ("Ошибки валидации",)))
 
     @abstractmethod
     def _get_row(self, num: int) -> tuple[str, ...]:
@@ -138,5 +131,7 @@ class BaseGenerator:
             if i * 100 % count_line == 0:
                 logging.info(f"write {i * 100 // count_line} %")
             row = self._get_row(i)
-            self.__check_row(row)
+            text_problem = self.__check_row(row)
+            if self.add_row_problem:
+                row = tuple(chain(row, (text_problem,)))
             yield row

@@ -1,7 +1,7 @@
 import csv
-from typing import Generator, Final
+import os
+from typing import Final
 from datetime import datetime
-from zipfile import ZipFile
 from os import sep, remove
 
 import logging
