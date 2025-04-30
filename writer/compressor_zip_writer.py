@@ -1,5 +1,6 @@
 from typing import Generator
 from zipfile import ZipFile
+import multivolumefile
 import logging
 
 from .base_writer import BaseWriter

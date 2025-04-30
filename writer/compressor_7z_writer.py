@@ -2,7 +2,8 @@ from typing import Generator
 import logging
 import os
 
-from py7zr import SevenZipFile
+from py7zr import SevenZipFile, FILTER_LZMA2
+import multivolumefile
 import tempfile
 
 from .base_writer import BaseWriter
@@ -16,14 +17,16 @@ class Compressor7zWriter(BaseWriter):
     def write(
         self,
         data_generator: Generator[tuple[str, ...], None, None],
-        compresslevel: int = 5,
+        compression_level: int = 5,
+        volume: int | None = None,
     ) -> None:
         """
         Сохранения данных в файл архива напрямую из генератора данных
 
         Args:
             data_generator: генератор данных сохраняемый в архив
-            compresslevel: уровень сжатия файла
+            compression_level: уровень сжатия файла
+            volume: размер файла архива, None - единым архивом
         """
         full_file_name_7z = get_path(
             path_to_file=self._path_to_file,
@@ -43,11 +46,38 @@ class Compressor7zWriter(BaseWriter):
             tmp_name = tmp.name
 
         logging.info("Add temporary file to archive")
-        with SevenZipFile(full_file_name_7z, "w") as archive:
-            archive.write(
-                tmp_name,
-                arcname=full_file_name_csv,
-            )
+        filters = [
+            {
+                "id": FILTER_LZMA2,
+                "preset": compression_level,  # Уровень сжатия от 0 до 9
+                "dict_size": 16 * 1024 * 1024,  # Размер словаря (можно настроить)
+            }
+        ]
+        if volume is None:
+            with SevenZipFile(
+                full_file_name_7z,
+                "w",
+                filters=filters,
+            ) as archive:
+                archive.write(
+                    tmp_name,
+                    arcname=full_file_name_csv,
+                )
+        else:
+            with multivolumefile.open(
+                full_file_name_7z,
+                mode="wb",
+                volume=volume,
+            ) as target_archive:
+                with SevenZipFile(
+                    target_archive,
+                    "w",
+                    filters=filters,
+                ) as archive:
+                    archive.write(
+                        tmp_name,
+                        arcname=full_file_name_csv,
+                    )
 
         logging.info("Delete temporary file")
         os.unlink(tmp_name)

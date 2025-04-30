@@ -30,28 +30,33 @@ if __name__ == "__main__":
     faker_generator = FakerGenerator()
 
     count_row_checker = CountRow()
-    faker_generator.add_checker(
-        index_cols_to_check=None,
-        checker=count_row_checker,
-    )
-    faker_generator.add_checker(
-        index_cols_to_check=(9,),
-        checker=GeoChecking(GeoType.FULL_ADDRESS),
-    )
-    faker_generator.add_checker(
-        index_cols_to_check=(8,),
-        checker=GeoChecking(GeoType.POSTAL_CODE),
-    )
-    faker_generator.add_checker(
-        index_cols_to_check=(7,),
-        checker=GeoChecking(GeoType.COUNTRY),
-    )
-
-    writer_zip = CompressorZipWriter()
-    writer_zip.write(faker_generator.generate_data(count_line=20))
+    # faker_generator.add_checker(
+    #     index_cols_to_check=None,
+    #     checker=count_row_checker,
+    # )
+    # faker_generator.add_checker(
+    #     index_cols_to_check=(9,),
+    #     checker=GeoChecking(GeoType.FULL_ADDRESS),
+    # )
+    # faker_generator.add_checker(
+    #     index_cols_to_check=(8,),
+    #     checker=GeoChecking(GeoType.POSTAL_CODE),
+    # )
+    # faker_generator.add_checker(
+    #     index_cols_to_check=(7,),
+    #     checker=GeoChecking(GeoType.COUNTRY),
+    # )
+    #
+    # writer_zip = CompressorZipWriter()
+    # writer_zip.write(faker_generator.generate_data(count_line=20))
 
     writer_7z = Compressor7zWriter()
-    writer_7z.write(faker_generator.generate_data(count_line=20))
+    writer_7z.write(
+        faker_generator.generate_data(
+            count_line=500_00,
+        ),
+        volume=1024 * 256,
+    )
 
     csv_writer = CsvWriter()
-    csv_writer.write(faker_generator.generate_data(count_line=20))
+    csv_writer.write(faker_generator.generate_data(count_line=500_00))
