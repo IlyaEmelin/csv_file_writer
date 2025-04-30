@@ -4,6 +4,7 @@ from typing import Generator
 import logging
 
 from checker.base_checker import BaseChecker
+from core.constants import Constants
 
 
 class BaseGenerator:
@@ -46,7 +47,7 @@ class BaseGenerator:
                         + str(exp)
                     )
                 else:
-                    text = checker.check(args)
+                    text = checker.check(*args)
                     if text:
                         result.append(text)
         return "\n".join(result)
@@ -79,19 +80,20 @@ class BaseGenerator:
             tuple[str, ...]: название колонок которые мы хотим получить
         """
         head = (
-            "Фамилия",
-            "Имя",
-            "Номер телефона",
-            "Сайт",
-            "email",
-            "Профессия",
-            "Компания",
-            "Название страны",
-            "Почтовый индекс",
-            "Полный адрес",
+            "Фамилия",  # 0
+            "Имя",  # 1
+            "Номер телефона",  # 2
+            "Сайт",  # 3
+            "email",  # 4
+            "Профессия",  # 5
+            "Компания",  # 6
+            "Название страны",  # 7
+            "Почтовый индекс",  # 8
+            "Полный адрес",  # 9
         )
         if self.add_row_problem:
             return tuple(chain(head, ("Ошибки валидации",)))
+        return head
 
     @abstractmethod
     def _get_row(self, num: int) -> tuple[str, ...]:
@@ -107,7 +109,7 @@ class BaseGenerator:
 
     def generate_data(
         self,
-        count_line: int,
+        count_line: int = Constants.DEFAULT_COUNT_ROW,
     ) -> Generator[
         tuple[str, ...],
         None,

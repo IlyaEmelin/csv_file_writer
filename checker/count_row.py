@@ -19,7 +19,7 @@ class CountRow(BaseChecker):
         if self.__head is None:
             self.__head = args
         else:
-            if (len_row := len(args)) != (len_head := self.__head):
+            if (len_row := len(args)) != (len_head := len(self.__head)):
                 text = (
                     f"Длина кортежа полученной из текущей строчки: {args}\n"
                     f"не совпадает длиной заголовка: {self.__head}\n"

@@ -17,4 +17,7 @@ def get_path(
     Returns:
         str: полный путь к файлу
     """
-    return sep.join((path_to_file, file_name)) + f".{file_type}"
+    if path_to_file:
+        return sep.join((path_to_file, file_name)) + f".{file_type}"
+    else:
+        return file_name + f".{file_type}"

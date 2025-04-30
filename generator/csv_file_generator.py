@@ -16,9 +16,9 @@ class CsvFileGenerator(BaseGenerator):
     def __init__(
         self,
         file_name: str,
-        path_to_file: str = Constants.DEFAULT_PATH_TO_FILE,
-        encoding: str = Constants.DEFAULT_ENCODING,
-        delimiter: str = Constants.ROW_DELIMITER,
+        path_to_file: str = Constants.File.DEFAULT_PATH_TO_FILE,
+        encoding: str = Constants.File.DEFAULT_ENCODING,
+        delimiter: str = Constants.File.ROW_DELIMITER,
     ) -> None:
         """
         Генератор данных на основе CSV файла
@@ -48,7 +48,7 @@ class CsvFileGenerator(BaseGenerator):
 
     def generate_data(
         self,
-        count_line: int,
+        count_line: int = Constants.DEFAULT_COUNT_ROW,
     ) -> Generator[
         tuple[str, ...],
         None,

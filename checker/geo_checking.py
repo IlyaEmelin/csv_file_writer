@@ -1,14 +1,14 @@
-from base_checker import BaseChecker
 from time import sleep
 from functools import lru_cache
-from geopy.geocoders import Nominatim
 import logging
 
-from checker.geo_type import GeoType
+from geopy.exc import GeocoderQueryError, GeocoderTimedOut
+from geopy.geocoders import Nominatim
 
-USER_AGENT_NAME = "user_data_generator"
-CACHE_SIZE = 1024 * 16
-SLEEP_SECONDS = 1
+from .geo_type import GeoType
+from .base_checker import BaseChecker
+
+from core.constants import Constants
 
 
 class GeoChecking(BaseChecker):
@@ -26,10 +26,11 @@ class GeoChecking(BaseChecker):
     def __init__(self, geo_type: GeoType) -> None:
         super().__init__()
 
-        self.__geolocator = Nominatim(user_agent=USER_AGENT_NAME)
+        self.__geolocator = Nominatim(user_agent=Constants.GeoChecking.USER_AGENT_NAME)
         self.__geo_type: GeoType = geo_type
+        self.__is_head_row = True
 
-    @lru_cache(maxsize=CACHE_SIZE)
+    @lru_cache(maxsize=Constants.GeoChecking.CACHE_SIZE)
     def __cache_check(self, geo_type: GeoType, geo_data: str) -> str:
         """
         Кешируемый метод проверки гео-данных.
@@ -46,24 +47,36 @@ class GeoChecking(BaseChecker):
         """
         if geo_data:
             locator_field_name, text_name = geo_type.value
-            if locator_field_name:
+            try:
+                if locator_field_name:
+                    geo_data = {locator_field_name: geo_data}
                 location = self.__geolocator.geocode(
-                    {
-                        locator_field_name: geo_data,
-                    }
+                    geo_data,
+                    timeout=Constants.GeoChecking.TIMEOUT,
+                )
+            except (GeocoderQueryError, GeocoderTimedOut) as exp:
+                logging.error(
+                    (
+                        "Ошибка получения гео данных: "
+                        f"{geo_data} / {text_name}\n "
+                        f"{exp}"
+                    )
+                )
+                return (
+                    f"Для {geo_data} - типа {text_name}\n"
+                    "Ошибка получения данных с гео сервиса."
                 )
             else:
-                location = self.__geolocator.geocode(geo_data)
-            sleep(SLEEP_SECONDS)
+                sleep(Constants.GeoChecking.SLEEP_SECONDS)
 
-            if location is None:
-                text = (
-                    f"{geo_data} - {text_name} является фейковым.\n"
-                    "Не прошел валидацию на основе данных с "
-                    "сайта openstreetmap."
-                )
-                logging.warning(text)
-                return text
+                if location is None:
+                    text = (
+                        f"{geo_data} - {text_name} является фейковым.\n"
+                        "Не прошел валидацию на основе данных с "
+                        "сайта openstreetmap."
+                    )
+                    logging.warning(text)
+                    return text
         return ""
 
     def check(self, *args) -> str:
@@ -76,5 +89,8 @@ class GeoChecking(BaseChecker):
         Returns:
             str: текст ошибки в гео-данных
         """
-        geo_data: str = args[0]
-        return self.__cache_check(self.__geo_type, geo_data)
+        if self.__is_head_row:
+            self.__is_head_row = False
+        else:
+            geo_data: str = args[0]
+            return self.__cache_check(self.__geo_type, geo_data)
