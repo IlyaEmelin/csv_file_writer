@@ -8,7 +8,7 @@ from writer.base_writer import BaseWriter
 
 # from generator.fake_generator import fake_generator
 # from generator.keyboard_generator import keyboard_generator
-from writer.zip_compressor_writer import ZipCompressorWriter
+from writer.compressor_zip_writer import CompressorZipWriter
 from .base_writer_data import BaseWriterData
 from core.constants import Constants
 
@@ -38,7 +38,7 @@ class WriterData(BaseWriterData):
         # self.__count_line = count_line
         # self.__delimiter = delimiter
 
-        self.__compressor: BaseWriter = ZipCompressorWriter(
+        self.__compressor: BaseWriter = CompressorZipWriter(
             # delimiter=self.__delimiter,
             encoding=self.__encoding,
         )

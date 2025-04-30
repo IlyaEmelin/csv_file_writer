@@ -16,8 +16,9 @@ class Constants:
     class FileTypes:
         """Доступные типы файлов"""
 
-        ZIP_FILE_TYPE: Final[str] = "zip"
-        CSV_FILE_TYPE: Final[str] = "csv"
+        FILE_TYPE_ZIP: Final[str] = "zip"
+        FILE_TYPE_CSV: Final[str] = "csv"
+        FILE_TYPE_7Z: Final[str] = "7z"
 
     class GeoChecking:
         """Параметры гео-локации"""

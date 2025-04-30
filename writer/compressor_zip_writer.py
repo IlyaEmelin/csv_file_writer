@@ -1,5 +1,4 @@
-import os
-from typing import Generator, Final
+from typing import Generator
 from zipfile import ZipFile
 import logging
 
@@ -8,7 +7,7 @@ from core.constants import Constants
 from core.path_helper import get_path
 
 
-class ZipCompressorWriter(BaseWriter):
+class CompressorZipWriter(BaseWriter):
     """
     Класс для сжатия файлов на основе ZipFile класса
     """
@@ -28,10 +27,12 @@ class ZipCompressorWriter(BaseWriter):
         full_file_name_zip = get_path(
             path_to_file=self._path_to_file,
             file_name=self._file_name,
-            file_type=Constants.FileTypes.ZIP_FILE_TYPE,
+            file_type=Constants.FileTypes.FILE_TYPE_ZIP,
         )
         full_file_name_csv = get_path(
-            "", file_name=self._file_name, file_type=Constants.FileTypes.CSV_FILE_TYPE
+            "",
+            file_name=self._file_name,
+            file_type=Constants.FileTypes.FILE_TYPE_CSV,
         )
 
         logging.info("Create zip file.")
