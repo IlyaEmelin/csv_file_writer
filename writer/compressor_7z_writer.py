@@ -12,7 +12,9 @@ from core.path_helper import get_path
 
 
 class Compressor7zWriter(BaseWriter):
-    pass
+    """
+    Класс для записи данных в архив 7z
+    """
 
     def write(
         self,
@@ -49,8 +51,10 @@ class Compressor7zWriter(BaseWriter):
         filters = [
             {
                 "id": FILTER_LZMA2,
-                "preset": compression_level,  # Уровень сжатия от 0 до 9
-                "dict_size": 16 * 1024 * 1024,  # Размер словаря (можно настроить)
+                # Уровень сжатия от 0 до 9
+                "preset": compression_level,
+                # Размер словаря (можно настроить)
+                "dict_size": 16 * 1024 * 1024,
             }
         ]
         if volume is None:
