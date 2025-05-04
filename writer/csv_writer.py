@@ -4,6 +4,7 @@ from core.constants import Constants
 from core.helper import get_path
 from writer.base_writer import BaseWriter
 
+
 class CsvWriter(BaseWriter):
 
     def write(

@@ -1,5 +1,6 @@
 from os import sep
 
+
 def get_path(
     path_to_file: str,
     file_name: str,
