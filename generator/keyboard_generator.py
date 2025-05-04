@@ -19,27 +19,21 @@ class KeyboardGenerator(BaseGenerator):
             tuple[str, ...]: список значений в колонках
         """
         print(f"--- Введите данные о пользователе {num + 1} ---")
-        surname = input("Введите фамилию:")
-        name = input("Введите имя:")
-        phone_number = input("Введите номер телефона:")
-        website = input("Введите сайт:")
-        email = input("Введите email:")
-        profession = input("Введите профессию:")
-        company = input("Введите компанию:")
-        country = input("Введите название страны:")
-        postal_code = input("Введите почтовый индекс:")
-        address = input("Введите полный адрес:")
-        return (
-            surname,
-            name,
-            phone_number,
-            website,
-            email,
-            profession,
-            company,
-            country,
-            postal_code,
-            address,
+
+        return tuple(
+            input(f"Введите {name}:")
+            for name in (
+                "фамилию",
+                "имя",
+                "номер телефона",
+                "сайт",
+                "email",
+                "профессию",
+                "компанию",
+                "название страны",
+                "почтовый индекс",
+                "полный адрес",
+            )
         )
 
 
