@@ -21,7 +21,7 @@ class CsvFileGenerator(BaseGenerator):
         delimiter: str = Constants.File.ROW_DELIMITER,
     ) -> None:
         """
-        Генератор данных на основе CSV файла
+        Конструктор генератор данных на основе CSV файла
 
         Args:
             file_name: имя файла
@@ -74,13 +74,19 @@ class CsvFileGenerator(BaseGenerator):
         ) as csvfile:
             # певая строка не с данными, а названиями колонок
             file_line = csvfile.readline()
+
             if file_line:
+
                 while True:
                     file_line = csvfile.readline()
+
                     if not file_line:
                         break
+
                     row = tuple(file_line.split(self.__delimiter))
                     text_problem = self._check_row(row)
+
                     if self.add_row_problem:
                         row = tuple(chain(row, (text_problem,)))
+
                     yield row

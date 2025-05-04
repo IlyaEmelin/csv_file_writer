@@ -11,10 +11,41 @@ class BaseGenerator:
     """Базовый класс для получения данных"""
 
     def __init__(self):
-        """Базовый класс для получения данных"""
+        """Конструктор базовый класс для получения данных"""
         self.__checkers: list[tuple[tuple[int, ...] | None, BaseChecker]] = []
         # Добавлять в результат колонку с проблемами
-        self.add_row_problem = False
+        self.add_row_problem: bool = False
+
+    def __get_row(
+        self,
+        index_cols_to_check: tuple[int, ...] | None,
+        row: tuple[str, ...],
+    ) -> tuple[str, ...]:
+        """
+        Получить значения строк которые будем проверять
+
+        Args:
+            index_cols_to_check: индексы проверяемых строк
+            row: значения строк
+
+        Returns:
+            tuple[str, ...]: значения проверяемых строк
+        """
+        if index_cols_to_check is None:
+            return row
+        else:
+            try:
+                return tuple(row[index_col] for index_col in index_cols_to_check)
+            except IndexError:
+                logging.error(
+                    "В классе %s, индекс запрашиваемой колонки выходит "
+                    "за диапазон колонок.\n"
+                    "Проверьте первый парaметр переданный "
+                    "в метод add_checker.\n",
+                    self,
+                    exc_info=True,
+                )
+        return tuple()
 
     def _check_row(self, row: tuple[str, ...]) -> str:
         """
@@ -28,28 +59,11 @@ class BaseGenerator:
         """
         result = []
         for index_cols_to_check, checker in self.__checkers:
-            if index_cols_to_check is None:
+            check_row = self.__get_row(index_cols_to_check, row)
+            if check_row:
                 text = checker.check(*row)
                 if text:
                     result.append(text)
-            else:
-                try:
-                    args = tuple(row[index_col] for index_col in index_cols_to_check)
-                except IndexError as exp:
-                    logging.error(
-                        (
-                            f"В классе {self}, "
-                            "индекс запрашиваемой колонки выходит "
-                            "за диапазон колонок.\n"
-                            "Проверьте первый парaметр переданный "
-                            "в метод add_checker.\n"
-                        )
-                        + str(exp)
-                    )
-                else:
-                    text = checker.check(*args)
-                    if text:
-                        result.append(text)
         return "\n".join(result)
 
     def add_checker(
