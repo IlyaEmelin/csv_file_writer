@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Union
 
-
+# Может датакласс?
 class GeoType(Enum):
     """Тип проверяемой гео-позиции"""
 
