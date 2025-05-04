@@ -28,6 +28,7 @@ if __name__ == "__main__":
     )
     # Проверка значения почтового кода. Это длительная операция до 1 секунды
     # для одного значения
+    # от чисел лучше уйти - используй меппинг по названиям колонок
     faker_generator.add_checker(
         index_cols_to_check=(8,),
         checker=GeoChecking(GeoType.POSTAL_CODE),

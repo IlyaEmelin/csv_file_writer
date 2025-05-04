@@ -25,7 +25,7 @@ class GeoChecking(BaseChecker):
 
     def __init__(self, geo_type: GeoType) -> None:
         super().__init__()
-
+        # А точно в ините все это надо?
         self.__geolocator = Nominatim(user_agent=Constants.GeoChecking.USER_AGENT_NAME)
         self.__geo_type: GeoType = geo_type
         self.__is_head_row = True
@@ -45,6 +45,7 @@ class GeoChecking(BaseChecker):
         Returns:
             str: текст ошибки в гео-данных
         """
+        # Используй гардблок - нужно выходить как можно раньше из программы + уменьши вложенность if
         if geo_data:
             locator_field_name, text_name = geo_type.value
             try:

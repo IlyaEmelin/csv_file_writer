@@ -4,7 +4,7 @@ from core.constants import Constants
 from core.path_helper import get_path
 from writer.base_writer import BaseWriter
 
-
+# Давай еще txt и excel добавим
 class CsvWriter(BaseWriter):
 
     def write(

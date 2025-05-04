@@ -15,7 +15,7 @@ class Compressor7zWriter(BaseWriter):
     """
     Класс для записи данных в архив 7z
     """
-
+    #слишком сложная функция - разбей
     def write(
         self,
         data_generator: Generator[tuple[str, ...], None, None],
@@ -35,6 +35,7 @@ class Compressor7zWriter(BaseWriter):
             file_name=self._file_name,
             file_type=Constants.FileTypes.FILE_TYPE_7Z,
         )
+        # А если txt иди pdf появятся?
         full_file_name_csv = get_path(
             "",
             file_name=self._file_name,
@@ -57,6 +58,7 @@ class Compressor7zWriter(BaseWriter):
                 "dict_size": 16 * 1024 * 1024,
             }
         ]
+        # используй 120 знаков в строке - жалко чтоли?) слишком разбиваешь в ушерб читаемости
         if volume is None:
             with SevenZipFile(
                 full_file_name_7z,
@@ -73,11 +75,7 @@ class Compressor7zWriter(BaseWriter):
                 mode="wb",
                 volume=volume,
             ) as target_archive:
-                with SevenZipFile(
-                    target_archive,
-                    "w",
-                    filters=filters,
-                ) as archive:
+                with SevenZipFile( target_archive, "w", filters=filters) as archive:
                     archive.write(
                         tmp_name,
                         arcname=full_file_name_csv,

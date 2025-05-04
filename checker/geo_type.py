@@ -1,6 +1,6 @@
 from enum import Enum
 
-
+# Может датакласс?
 class GeoType(Enum):
     """Тип проверяемой гео-позиции"""
 

@@ -11,7 +11,9 @@ class BaseGenerator:
     """Базовый класс для получения данных"""
 
     def __init__(self):
+        # неверный докстринг
         """Базовый класс для получения данных"""
+        # убери в атрибуты если не зависят от входных данны
         self.__checkers: list[tuple[tuple[int, ...] | None, BaseChecker]] = []
         # Добавлять в результат колонку с проблемами
         self.add_row_problem = False
@@ -28,6 +30,7 @@ class BaseGenerator:
         """
         result = []
         for index_cols_to_check, checker in self.__checkers:
+            # выглядит как функция отдельная
             if index_cols_to_check is None:
                 text = checker.check(*row)
                 if text:
@@ -37,6 +40,7 @@ class BaseGenerator:
                     args = tuple(row[index_col] for index_col in index_cols_to_check)
                 except IndexError as exp:
                     logging.error(
+                        # избавься от f строк - https://docs.python.org/3/howto/logging.html
                         (
                             f"В классе {self}, "
                             "индекс запрашиваемой колонки выходит "
@@ -47,6 +51,7 @@ class BaseGenerator:
                         + str(exp)
                     )
                 else:
+                    # повторяющийся код
                     text = checker.check(*args)
                     if text:
                         result.append(text)

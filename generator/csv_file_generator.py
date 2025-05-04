@@ -12,7 +12,7 @@ class CsvFileGenerator(BaseGenerator):
     """
     Генератор данных на основе CSV файла
     """
-
+    # вот оно реально в инит надо?
     def __init__(
         self,
         file_name: str,
@@ -45,6 +45,7 @@ class CsvFileGenerator(BaseGenerator):
         Returns:
             tuple[str, ...]: список значений в колонках
         """
+        #Вариантино - лучше pass или ...
 
     def generate_data(
         self,
@@ -74,13 +75,19 @@ class CsvFileGenerator(BaseGenerator):
         ) as csvfile:
             # певая строка не с данными, а названиями колонок
             file_line = csvfile.readline()
+            # Предпочитаю разбивать пустыми строками логические вещи вот так - чуть более читаемо
             if file_line:
+
                 while True:
                     file_line = csvfile.readline()
+
                     if not file_line:
                         break
+
                     row = tuple(file_line.split(self.__delimiter))
                     text_problem = self._check_row(row)
+
                     if self.add_row_problem:
                         row = tuple(chain(row, (text_problem,)))
+
                     yield row

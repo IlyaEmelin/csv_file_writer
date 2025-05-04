@@ -11,6 +11,7 @@ class FakerGenerator(BaseGenerator):
     """
 
     def __init__(self):
+        # лишний докстринг - и так понятно
         """
         Конструктор
         """
@@ -27,6 +28,7 @@ class FakerGenerator(BaseGenerator):
         Returns:
             tuple[str, ...]: список значений в колонках
         """
+        # не драй(много общего в строках) + сделай два однострочника
         if randrange(2):
             get_last_name = self.__faker.last_name_female
             get_first_name = self.__faker.first_name_female
