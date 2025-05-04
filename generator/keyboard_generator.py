@@ -18,7 +18,6 @@ class KeyboardGenerator(BaseGenerator):
         Returns:
             tuple[str, ...]: список значений в колонках
         """
-        # Сделай циклом ну
         print(f"--- Введите данные о пользователе {num + 1} ---")
 
         return tuple(

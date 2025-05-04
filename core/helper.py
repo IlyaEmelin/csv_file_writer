@@ -1,6 +1,5 @@
 from os import sep
 
-# обычно называют просто helper файлик
 def get_path(
     path_to_file: str,
     file_name: str,

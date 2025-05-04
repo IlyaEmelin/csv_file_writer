@@ -1,6 +1,5 @@
 from typing import Final
 
-# лайк
 class Constants:
     """Константы"""
 

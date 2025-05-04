@@ -58,12 +58,5 @@ if __name__ == "__main__":
         volume=1024 * 256,
     )
 
-    # без сжатия напрямую в Csv файл
-    # from datetime import datetime
-    #
-    # now = datetime.now()
-    #
     csv_writer = CsvWriter()
     csv_writer.write(faker_generator.generate_data(count_line=20))
-    #
-    # print("Time delta:", datetime.now() - now)
