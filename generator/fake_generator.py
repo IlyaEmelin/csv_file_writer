@@ -4,6 +4,10 @@ from faker import Faker
 
 from .base_generator import BaseGenerator
 
+FULL_ADDRESS_INDEX = 9
+POSTCODE_INDEX = 8
+COUNTRY_INDEX = 7
+
 
 class FakerGenerator(BaseGenerator):
     """

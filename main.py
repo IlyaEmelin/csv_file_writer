@@ -3,7 +3,12 @@ import logging
 from checker.geo_checking import GeoChecking
 from checker.geo_type import GeoType
 from checker.count_row import CountRow
-from generator.fake_generator import FakerGenerator
+from generator.fake_generator import (
+    FakerGenerator,
+    FULL_ADDRESS_INDEX,
+    POSTCODE_INDEX,
+    COUNTRY_INDEX,
+)
 from writer.compressor_7z_writer import Compressor7zWriter
 from writer.csv_writer import CsvWriter
 from writer.compressor_zip_writer import CompressorZipWriter
@@ -23,19 +28,19 @@ if __name__ == "__main__":
     # Проверка значения полного адреса. Это длительная операция до 1 секунды
     # для одного значения
     faker_generator.add_checker(
-        index_cols_to_check=(9,),
+        index_cols_to_check=(FULL_ADDRESS_INDEX,),
         checker=GeoChecking(GeoType.FULL_ADDRESS),
     )
     # Проверка значения почтового кода. Это длительная операция до 1 секунды
     # для одного значения
     faker_generator.add_checker(
-        index_cols_to_check=(8,),
+        index_cols_to_check=(POSTCODE_INDEX,),
         checker=GeoChecking(GeoType.POSTAL_CODE),
     )
     # Проверка значения страны. Это длительная операция до 1 секунды
     # для одного значения
     faker_generator.add_checker(
-        index_cols_to_check=(7,),
+        index_cols_to_check=(COUNTRY_INDEX,),
         checker=GeoChecking(GeoType.COUNTRY),
     )
 
