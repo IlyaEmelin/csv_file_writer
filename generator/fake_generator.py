@@ -13,6 +13,7 @@ class FakerGenerator(BaseGenerator):
     """
 
     def __init__(self):
+        # Не стоит докстрингать очевидное + можно в одну строку
         """
         Конструктор
         """
@@ -28,6 +29,7 @@ class FakerGenerator(BaseGenerator):
         Returns:
             tuple[str, ...]: список значений в колонках
         """
+        # Ужасный if - сделай нормально
         if randrange(2):
             get_last_name = self.__faker.last_name_female
             get_first_name = self.__faker.first_name_female

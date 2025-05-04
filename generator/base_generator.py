@@ -7,7 +7,7 @@ class BaseGenerator:
     """
     Базовый класс для получения данных
     """
-
+    # А так принципиальна длина тапла?
     @staticmethod
     def _get_head() -> tuple[
         str,
@@ -76,7 +76,10 @@ class BaseGenerator:
             if i * 100 % count_line == 0:
                 logging.info(f"write {i * 100 // count_line} %")
             row = self._get_row(i)
+            # за моржовый лайк
             if (len_row := len(row)) != len_head:
+                # В логировании лучше не использовать f строки
+                # https: // docs.python.org / 3 / howto / logging.html
                 logging.error(
                     (
                         f"Длина кортежа полученной из текущей строчки: {row}\n",

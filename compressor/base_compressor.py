@@ -37,6 +37,7 @@ class BaseCompressor(ABC):
         """
         return full_file_name_csv.split(os.sep)[-1]
 
+    # Этот и следующий выглядят одинаково - может можно сделать единый интерфейс?
     @abstractmethod
     def compress_by_generator(
         self,

@@ -18,6 +18,7 @@ class KeyboardGenerator(BaseGenerator):
         Returns:
             tuple[str, ...]: список значений в колонках
         """
+        # Сделай циклом нормально
         print(f"--- Введите данные о пользователе {num + 1} ---")
         surname = input("Введите фамилию:")
         name = input("Введите имя:")

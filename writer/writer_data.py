@@ -11,8 +11,9 @@ from generator.fake_generator import fake_generator
 from generator.keyboard_generator import keyboard_generator
 from compressor.zip_file_compressor import ZipFileCompressor
 from .base_writer_data import BaseWriterData
-
-
+#Это не ООП - это просто класс
+# Отсуствует единый интерфейс взаимодействия - в названиях функций присуствует указание на конретику - нет универсальности
+# Некорретное название
 class WriterData(BaseWriterData):
     """
     Класс для записи данных в файл

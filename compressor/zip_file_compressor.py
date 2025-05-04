@@ -60,6 +60,7 @@ class ZipFileCompressor(BaseCompressor):
     def compress_by_csv_file(
         self,
         full_file_name_csv: str,
+        # магические цифры
         compresslevel: int = 5,
     ) -> None:
         """
@@ -71,6 +72,7 @@ class ZipFileCompressor(BaseCompressor):
         """
         full_file_name_zip = self._get_full_file_name_zip(full_file_name_csv)
 
+        # логирование лучше сделать единообразное + добавить успешностьнеусспешность на выходе
         logging.info("Zip file")
         with ZipFile(
             full_file_name_zip,
