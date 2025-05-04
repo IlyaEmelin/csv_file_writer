@@ -5,7 +5,7 @@ import logging
 
 from .base_writer import BaseWriter
 from core.constants import Constants
-from core.path_helper import get_path
+from core.helper import get_path
 
 
 class CompressorZipWriter(BaseWriter):

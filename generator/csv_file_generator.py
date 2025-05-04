@@ -3,7 +3,7 @@ from itertools import chain
 
 from .base_generator import BaseGenerator
 from core.constants import Constants
-from core.path_helper import get_path
+from core.helper import get_path
 
 CSV_FILE_TYPE = "csv"
 

@@ -130,7 +130,10 @@ class BaseGenerator:
         yield head
         for i in range(count_line):
             if i * 100 % count_line == 0:
-                logging.info(f"write {i * 100 // count_line} %")
+                logging.info(
+                    "write %s %",
+                    i * 100 // count_line,
+                )
             row = self._get_row(i)
             text_problem = self._check_row(row)
             if self.add_row_problem:

@@ -1,7 +1,7 @@
 from typing import Generator
 
 from core.constants import Constants
-from core.path_helper import get_path
+from core.helper import get_path
 from writer.base_writer import BaseWriter
 
 

@@ -45,38 +45,41 @@ class GeoChecking(BaseChecker):
         Returns:
             str: текст ошибки в гео-данных
         """
+        match geo_data, geo_type:
+            case geo_data, geo_type if geo_data and geo_type.locator_field_name:
+                geo_data = {geo_type.locator_field_name: geo_data}
         if geo_data:
-            locator_field_name, text_name = geo_type.value
             try:
-                if locator_field_name:
-                    geo_data = {locator_field_name: geo_data}
                 location = self.__geolocator.geocode(
-                    geo_data,
+                    geo_type.get_geo_data(geo_data),
                     timeout=Constants.GeoChecking.TIMEOUT,
                 )
-            except (GeocoderQueryError, GeocoderTimedOut) as exp:
+            except (GeocoderQueryError, GeocoderTimedOut):
                 logging.error(
-                    (
-                        "Ошибка получения гео данных: "
-                        f"{geo_data} / {text_name}\n "
-                        f"{exp}"
-                    )
+                    "Ошибка получения гео данных: %s / %s",
+                    geo_data,
+                    geo_type.text_name,
+                    exc_info=True,
                 )
                 return (
-                    f"Для {geo_data} - типа {text_name}\n"
+                    f"Для {geo_data} - типа {geo_type.text_name}\n"
                     "Ошибка получения данных с гео сервиса."
                 )
             else:
                 sleep(Constants.GeoChecking.SLEEP_SECONDS)
 
                 if location is None:
-                    text = (
-                        f"{geo_data} - {text_name} является фейковым.\n"
+                    logging.warning(
+                        "%s - %s является фейковым.",
+                        geo_data,
+                        geo_type.text_name,
+                    )
+                    return (
+                        f"{geo_data} - {geo_type.text_name} "
+                        "является фейковым.\n"
                         "Не прошел валидацию на основе данных с "
                         "сайта openstreetmap."
                     )
-                    logging.warning(text)
-                    return text
         return ""
 
     def check(self, *args) -> str:

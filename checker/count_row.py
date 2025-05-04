@@ -18,14 +18,24 @@ class CountRow(BaseChecker):
         """
         if self.__head is None:
             self.__head = args
-        else:
-            if (len_row := len(args)) != (len_head := len(self.__head)):
-                text = (
-                    f"Длина кортежа полученной из текущей строчки: {args}\n"
-                    f"не совпадает длиной заголовка: {self.__head}\n"
-                    f"{len_head} != {len_row}"
-                )
+            return ""
+        if (len_row := len(args)) != (len_head := len(self.__head)):
+            text = (
+                f"Длина кортежа полученной из текущей строчки: {args}\n"
+                f"не совпадает длиной заголовка: {self.__head}\n"
+                f"{len_head} != {len_row}"
+            )
 
-                logging.error(text)
-                return text
+            logging.error(
+                (
+                    f"Длина кортежа полученной из текущей строчки: %s\n"
+                    f"не совпадает длиной заголовка: %s\n"
+                    f"%s != %s"
+                ),
+                args,
+                self.__head,
+                len_head,
+                len_row,
+            )
+            return text
         return ""

@@ -8,7 +8,7 @@ import tempfile
 
 from .base_writer import BaseWriter
 from core.constants import Constants
-from core.path_helper import get_path
+from core.helper import get_path
 
 
 class Compressor7zWriter(BaseWriter):
