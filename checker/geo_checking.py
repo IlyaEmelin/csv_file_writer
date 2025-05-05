@@ -26,7 +26,9 @@ class GeoChecking(BaseChecker):
     def __init__(self, geo_type: GeoType) -> None:
         super().__init__()
 
-        self.__geolocator = Nominatim(user_agent=Constants.GeoChecking.USER_AGENT_NAME)
+        self.__geolocator = Nominatim(
+            user_agent=Constants.GeoChecking.USER_AGENT_NAME,
+        )
         self.__geo_type: GeoType = geo_type
         self.__is_head_row = True
 
@@ -45,9 +47,6 @@ class GeoChecking(BaseChecker):
         Returns:
             str: текст ошибки в гео-данных
         """
-        match geo_data, geo_type:
-            case geo_data, geo_type if geo_data and geo_type.locator_field_name:
-                geo_data = {geo_type.locator_field_name: geo_data}
         if geo_data:
             try:
                 location = self.__geolocator.geocode(

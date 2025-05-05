@@ -61,7 +61,7 @@ class BaseGenerator:
         for index_cols_to_check, checker in self.__checkers:
             check_row = self.__get_row(index_cols_to_check, row)
             if check_row:
-                text = checker.check(*row)
+                text = checker.check(*check_row)
                 if text:
                     result.append(text)
         return "\n".join(result)
@@ -139,13 +139,12 @@ class BaseGenerator:
             tuple[str, ...]: полученная колонка
         """
         head = self._get_head()
-        self._check_row(head)
 
         yield head
         for i in range(count_line):
             if i * 100 % count_line == 0:
                 logging.info(
-                    "write %s %",
+                    "write %s percent",
                     i * 100 // count_line,
                 )
             row = self._get_row(i)
