@@ -1,5 +1,6 @@
 from typing import Final
 
+
 class Constants:
     """Константы"""
 
@@ -18,6 +19,8 @@ class Constants:
         FILE_TYPE_ZIP: Final[str] = "zip"
         FILE_TYPE_CSV: Final[str] = "csv"
         FILE_TYPE_7Z: Final[str] = "7z"
+        FILE_TYPE_TXT: Final[str] = "txt"
+        FILE_TYPE_EXCEL: Final[str] = "xlsx"
 
     class GeoChecking:
         """Параметры гео-локации"""

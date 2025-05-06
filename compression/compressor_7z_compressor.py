@@ -3,15 +3,17 @@ import logging
 import os
 
 from py7zr import SevenZipFile, FILTER_LZMA2
+from tempfile import NamedTemporaryFile
 import multivolumefile
-import tempfile
 
-from .base_writer import BaseWriter
+from compression.base_comressor import BaseCompressor
+from compression.temporary_file import TemporaryFile
+from writer.base_writer import BaseWriter
 from core.constants import Constants
 from core.helper import get_path
 
 
-class Compressor7zWriter(BaseWriter):
+class Compressor7zCompressor(BaseCompressor):
     """
     Класс для записи данных в архив 7z
     """
@@ -62,6 +64,7 @@ class Compressor7zWriter(BaseWriter):
 
     def write(
         self,
+        writer_data: BaseWriter,
         data_generator: Generator[tuple[str, ...], None, None],
         compression_level: int = 5,
         volume: int | None = None,
@@ -70,6 +73,7 @@ class Compressor7zWriter(BaseWriter):
         Сохранения данных в файл архива напрямую из генератора данных
 
         Args:
+            writer_data: класс который, записывает данные
             data_generator: генератор данных сохраняемый в архив
             compression_level: уровень сжатия файла
             volume: размер файла архива, None - единым архивом
@@ -82,32 +86,30 @@ class Compressor7zWriter(BaseWriter):
         full_file_name_csv = get_path(
             "",
             file_name=self._file_name,
-            file_type=Constants.FileTypes.FILE_TYPE_CSV,
+            file_type=writer_data.file_type,
         )
 
-        logging.info("Create temporary file.")
-        with tempfile.NamedTemporaryFile(delete=False) as tmp:
-            for row in data_generator:
-                tmp.write(self._get_bytes(row))
-            tmp_name = tmp.name
+        with TemporaryFile() as temp_file:
+            writer_data.write_data(
+                file=temp_file,
+                data_generator=data_generator,
+            )
+            temp_file.flush()
 
-        logging.info("Add temporary file to archive")
-        filters = [
-            {
-                "id": FILTER_LZMA2,
-                # Уровень сжатия от 0 до 9
-                "preset": compression_level,
-                # Размер словаря (можно настроить)
-                "dict_size": 16 * 1024 * 1024,
-            }
-        ]
-        self.__write_to_archive(
-            full_file_name_7z,
-            full_file_name_csv,
-            filters,
-            tmp_name,
-            volume,
-        )
-
-        logging.info("Delete temporary file")
-        os.unlink(tmp_name)
+            logging.info("Add temporary file to archive 7z")
+            filters = [
+                {
+                    "id": FILTER_LZMA2,
+                    # Уровень сжатия от 0 до 9
+                    "preset": compression_level,
+                    # Размер словаря (можно настроить)
+                    "dict_size": 16 * 1024 * 1024,
+                }
+            ]
+            self.__write_to_archive(
+                full_file_name_7z,
+                full_file_name_csv,
+                filters,
+                temp_file.name,
+                volume,
+            )

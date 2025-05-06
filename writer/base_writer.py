@@ -1,8 +1,8 @@
 from typing import Generator
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 from core.constants import Constants
-from datetime import datetime
 
 
 class BaseWriter(ABC):
@@ -42,6 +42,13 @@ class BaseWriter(ABC):
         """
         return self._file_name
 
+    @property
+    @abstractmethod
+    def file_type(self) -> str:
+        """
+        str: расширение файла
+        """
+
     def _get_bytes(self, row: tuple[str, ...]) -> bytes:
         """
         Возвращает байты который будут записаны в файл
@@ -67,4 +74,18 @@ class BaseWriter(ABC):
 
         Args:
             data_generator: генератор данных сохраняемый в архив
+        """
+
+    @abstractmethod
+    def write_data(
+        self,
+        file,
+        data_generator: Generator[tuple[str, ...], None, None],
+    ) -> None:
+        """
+        Запись данных в файл
+
+        Args:
+            file: файл куда будет происходить запись
+            data_generator: генератор данных
         """

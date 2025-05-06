@@ -22,14 +22,15 @@ Python модуль, который позволяет записывать на
 - **Compressor7zWriter** - результат файл с типом 7z, внутри будет лежать файл csv.
 
 ### Пример использования классов
+
 ```python
 from checker.geo_checking import GeoChecking
 from checker.geo_type import GeoType
 from checker.count_row import CountRow
 from generator.fake_generator import FakerGenerator
-from writer.compressor_7z_writer import Compressor7zWriter
+from compression.compressor_7z_compressor import Compressor7zCompressor
 from writer.csv_writer import CsvWriter
-from writer.compressor_zip_writer import CompressorZipWriter
+from compression.compressor_zip_compressor import CompressorZipCompressor
 
 # Пример использование создания данных
 # Генератор Fake-данных
@@ -60,11 +61,11 @@ faker_generator.add_checker(
 )
 
 # Сжатие в ZIP - архив
-writer_zip = CompressorZipWriter()
+writer_zip = CompressorZipCompressor()
 writer_zip.write(faker_generator.generate_data(count_line=20))
 
 # Сжатие в 7z - архив
-writer_7z = Compressor7zWriter()
+writer_7z = Compressor7zCompressor()
 writer_7z.write(
     faker_generator.generate_data(
         count_line=20,

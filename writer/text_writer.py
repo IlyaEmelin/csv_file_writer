@@ -1,20 +1,19 @@
-import logging
-from typing import Generator
+from typing import Generator, BinaryIO
 
 from core.constants import Constants
 from core.helper import get_path
 from .base_writer import BaseWriter
 
 
-class CsvWriter(BaseWriter):
+class TextWriter(BaseWriter):
 
     @property
     def file_type(self) -> str:
-        return Constants.FileTypes.FILE_TYPE_CSV
+        return Constants.FileTypes.FILE_TYPE_TXT
 
     def write_data(
         self,
-        file,
+        file: BinaryIO,
         data_generator: Generator[tuple[str, ...], None, None],
     ) -> None:
         """
@@ -40,8 +39,7 @@ class CsvWriter(BaseWriter):
         full_file_name_csv = get_path(
             path_to_file=self._path_to_file,
             file_name=self._file_name,
-            file_type=Constants.FileTypes.FILE_TYPE_CSV,
+            file_type=Constants.FileTypes.FILE_TYPE_TXT,
         )
-        logging.info("Open csv file.")
-        with open(full_file_name_csv, "wb") as file_csv:
-            self.write_data(file_csv, data_generator)
+        with open(full_file_name_csv, "wb") as file_txt:
+            self.write_data(file_txt, data_generator)
