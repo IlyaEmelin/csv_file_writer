@@ -9,9 +9,11 @@ from generator.fake_generator import (
     POSTCODE_INDEX,
     COUNTRY_INDEX,
 )
-from writer.compressor_7z_writer import Compressor7zWriter
+from compression.compressor_7z_compressor import Compressor7zCompressor
+
+from compression.compressor_zip_compressor import CompressorZipCompressor
 from writer.csv_writer import CsvWriter
-from writer.compressor_zip_writer import CompressorZipWriter
+from writer.text_writer import TextWriter
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
@@ -33,7 +35,6 @@ if __name__ == "__main__":
     )
     # Проверка значения почтового кода. Это длительная операция до 1 секунды
     # для одного значения
-    # от чисел лучше уйти - используй меппинг по названиям колонок
     faker_generator.add_checker(
         index_cols_to_check=(POSTCODE_INDEX,),
         checker=GeoChecking(GeoType.POSTAL_CODE),
@@ -45,18 +46,25 @@ if __name__ == "__main__":
         checker=GeoChecking(GeoType.COUNTRY),
     )
 
-    # Сжатие в ZIP - архив
-    writer_zip = CompressorZipWriter()
-    writer_zip.write(faker_generator.generate_data(count_line=20))
+    # Запись в csv файл
+    csv_writer = CsvWriter()
+    csv_writer.write(faker_generator.generate_data(count_line=10))
 
-    # Сжатие в 7z - архив
-    writer_7z = Compressor7zWriter()
-    writer_7z.write(
-        faker_generator.generate_data(
-            count_line=20,
-        ),
-        volume=1024 * 256,
+    # Запись в text файл
+    text_writer = TextWriter()
+    text_writer.write(faker_generator.generate_data(count_line=10))
+
+    # Сжатие в ZIP - архив
+    writer_zip = CompressorZipCompressor()
+    writer_zip.write(
+        CsvWriter(),
+        faker_generator.generate_data(count_line=10),
     )
 
-    csv_writer = CsvWriter()
-    csv_writer.write(faker_generator.generate_data(count_line=20))
+    # Сжатие в 7z - архив
+    writer_7z = Compressor7zCompressor()
+    writer_7z.write(
+        CsvWriter(),
+        faker_generator.generate_data(count_line=10),
+        volume=1024 * 256,
+    )

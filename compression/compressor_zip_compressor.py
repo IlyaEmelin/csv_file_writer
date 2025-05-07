@@ -3,18 +3,21 @@ from zipfile import ZipFile
 import multivolumefile
 import logging
 
-from .base_writer import BaseWriter
+from writer.base_writer import BaseWriter
+from compression.base_comressor import BaseCompressor
+from compression.temporary_file import TemporaryFile
 from core.constants import Constants
 from core.helper import get_path
 
 
-class CompressorZipWriter(BaseWriter):
+class CompressorZipCompressor(BaseCompressor):
     """
     Класс для сжатия файлов на основе ZipFile класса
     """
 
     def write(
         self,
+        writer_data: BaseWriter,
         data_generator: Generator[tuple[str, ...], None, None],
         compresslevel: int = 5,
     ) -> None:
@@ -22,6 +25,7 @@ class CompressorZipWriter(BaseWriter):
         Сохранения данных в файл архива напрямую из генератора данных
 
         Args:
+            writer_data: класс который, записывает данные
             data_generator: генератор данных сохраняемый в архив
             compresslevel: уровень сжатия файла
         """
@@ -33,16 +37,24 @@ class CompressorZipWriter(BaseWriter):
         full_file_name_csv = get_path(
             "",
             file_name=self._file_name,
-            file_type=Constants.FileTypes.FILE_TYPE_CSV,
+            file_type=writer_data.file_type,
         )
 
-        logging.info("Create zip file.")
-        with ZipFile(
-            full_file_name_zip,
-            "w",
-            compresslevel=compresslevel,
-        ) as archive:
-            logging.info("Create result file.")
-            with archive.open(full_file_name_csv, "w") as csvfile:
-                for row in data_generator:
-                    csvfile.write(self._get_bytes(row))
+        with TemporaryFile() as temp_file:
+            writer_data.write_data(
+                file=temp_file,
+                data_generator=data_generator,
+            )
+            temp_file.flush()
+
+            logging.info("Create zip file.")
+            with ZipFile(
+                full_file_name_zip,
+                "w",
+                compresslevel=compresslevel,
+            ) as archive:
+                logging.info("Create result file.")
+                archive.write(
+                    filename=temp_file.name,
+                    arcname=full_file_name_csv,
+                )
