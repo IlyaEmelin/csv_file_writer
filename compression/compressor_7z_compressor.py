@@ -1,9 +1,7 @@
 from typing import Generator, Any
 import logging
-import os
 
 from py7zr import SevenZipFile, FILTER_LZMA2
-from tempfile import NamedTemporaryFile
 import multivolumefile
 
 from compression.base_comressor import BaseCompressor
