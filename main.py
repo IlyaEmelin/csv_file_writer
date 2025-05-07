@@ -13,6 +13,7 @@ from compression.compressor_7z_compressor import Compressor7zCompressor
 
 from compression.compressor_zip_compressor import CompressorZipCompressor
 from writer.csv_writer import CsvWriter
+from writer.excel_writer import ExcelWriter
 from writer.text_writer import TextWriter
 
 if __name__ == "__main__":
@@ -35,10 +36,10 @@ if __name__ == "__main__":
     )
     # Проверка значения почтового кода. Это длительная операция до 1 секунды
     # для одного значения
-    faker_generator.add_checker(
-        index_cols_to_check=(POSTCODE_INDEX,),
-        checker=GeoChecking(GeoType.POSTAL_CODE),
-    )
+    # faker_generator.add_checker(
+    #     index_cols_to_check=(POSTCODE_INDEX,),
+    #     checker=GeoChecking(GeoType.POSTAL_CODE),
+    # )
     # Проверка значения страны. Это длительная операция до 1 секунды
     # для одного значения
     faker_generator.add_checker(
@@ -54,6 +55,10 @@ if __name__ == "__main__":
     text_writer = TextWriter()
     text_writer.write(faker_generator.generate_data(count_line=10))
 
+    # Запись в excel файл
+    text_writer = ExcelWriter()
+    text_writer.write(faker_generator.generate_data(count_line=10))
+
     # Сжатие в ZIP - архив
     writer_zip = CompressorZipCompressor()
     writer_zip.write(
@@ -67,4 +72,11 @@ if __name__ == "__main__":
         CsvWriter(),
         faker_generator.generate_data(count_line=10),
         volume=1024 * 256,
+    )
+
+    # Сжатие в ZIP - архив excel файла
+    writer_zip = CompressorZipCompressor()
+    writer_zip.write(
+        ExcelWriter(),
+        faker_generator.generate_data(count_line=10),
     )

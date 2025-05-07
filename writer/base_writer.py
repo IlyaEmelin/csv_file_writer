@@ -1,4 +1,4 @@
-from typing import Generator
+from typing import Generator, BinaryIO
 from abc import ABC, abstractmethod
 from datetime import datetime
 
@@ -79,7 +79,7 @@ class BaseWriter(ABC):
     @abstractmethod
     def write_data(
         self,
-        file,
+        file: BinaryIO,
         data_generator: Generator[tuple[str, ...], None, None],
     ) -> None:
         """
