@@ -39,10 +39,10 @@ if __name__ == "__main__":
     )
     # Проверка значения почтового кода. Это длительная операция до 1 секунды
     # для одного значения
-    # faker_generator.add_checker(
-    #     index_cols_to_check=(POSTCODE_INDEX,),
-    #     checker=GeoChecking(GeoType.POSTAL_CODE),
-    # )
+    faker_generator.add_checker(
+        index_cols_to_check=(POSTCODE_INDEX,),
+        checker=GeoChecking(GeoType.POSTAL_CODE),
+    )
     # Проверка значения страны. Это длительная операция до 1 секунды
     # для одного значения
     faker_generator.add_checker(
