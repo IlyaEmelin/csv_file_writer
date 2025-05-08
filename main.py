@@ -10,6 +10,7 @@ from generator.fake_generator import (
     COUNTRY_INDEX,
 )
 from generator.mimesis_generator import MimesisGenerator
+
 from compression.compressor_7z_compressor import Compressor7zCompressor
 from compression.compressor_zip_compressor import CompressorZipCompressor
 
