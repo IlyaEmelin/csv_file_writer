@@ -9,9 +9,10 @@ from generator.fake_generator import (
     POSTCODE_INDEX,
     COUNTRY_INDEX,
 )
+from generator.mimesis_generator import MimesisGenerator
 from compression.compressor_7z_compressor import Compressor7zCompressor
-
 from compression.compressor_zip_compressor import CompressorZipCompressor
+
 from writer.csv_writer import CsvWriter
 from writer.excel_writer import ExcelWriter
 from writer.text_writer import TextWriter
@@ -20,7 +21,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     # Пример использование создания данных
-    # Генератор Fake-данных
+    # Генератор Fake-данных на основе проекта faker
+    # (медленнее в 5 раз проекта mimesis)
     faker_generator = FakerGenerator()
 
     # Добавление класса который проверяет количество колонок в каждой строчке
@@ -67,8 +69,8 @@ if __name__ == "__main__":
     )
 
     # Сжатие в 7z - архив
-    writer_7z = Compressor7zCompressor()
-    writer_7z.write(
+    big_writer_7z = Compressor7zCompressor()
+    big_writer_7z.write(
         CsvWriter(),
         faker_generator.generate_data(count_line=10),
         volume=1024 * 256,
@@ -79,4 +81,14 @@ if __name__ == "__main__":
     writer_zip.write(
         ExcelWriter(),
         faker_generator.generate_data(count_line=10),
+    )
+
+    # Сжатие в 7z - архив csv файла c 2_000_000 записей
+    # Генератор Fake-данных на основе проекта mimesis (быстрее в 5 раз)
+    mimesis_generator = MimesisGenerator()
+    big_writer_7z = Compressor7zCompressor()
+    big_writer_7z.write(
+        CsvWriter(),
+        mimesis_generator.generate_data(count_line=2_000_000),
+        volume=1024 * 1024 * 16,
     )
