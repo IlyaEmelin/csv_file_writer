@@ -76,6 +76,7 @@ class Compressor7zCompressor(BaseCompressor):
             compression_level: уровень сжатия файла
             volume: размер файла архива, None - единым архивом
         """
+        # а зачем генерить два имени?
         full_file_name_7z = get_path(
             path_to_file=self._path_to_file,
             file_name=self._file_name,
