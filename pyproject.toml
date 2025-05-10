@@ -6,7 +6,7 @@ authors = [
     {name = "Илья",email = "bkmz8_133@mail.ru"}
 ]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = "^3.12"
 dependencies = [
     "black (>=25.1.0,<26.0.0)",
     "faker (>=37.1.0,<38.0.0)",
@@ -21,3 +21,7 @@ dependencies = [
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+mimesis = "^18.0.0"
+

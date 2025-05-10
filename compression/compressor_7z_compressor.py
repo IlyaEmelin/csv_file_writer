@@ -1,9 +1,7 @@
 from typing import Generator, Any
 import logging
-import os
 
 from py7zr import SevenZipFile, FILTER_LZMA2
-from tempfile import NamedTemporaryFile
 import multivolumefile
 
 from compression.base_comressor import BaseCompressor
@@ -78,6 +76,7 @@ class Compressor7zCompressor(BaseCompressor):
             compression_level: уровень сжатия файла
             volume: размер файла архива, None - единым архивом
         """
+        # а зачем генерить два имени?
         full_file_name_7z = get_path(
             path_to_file=self._path_to_file,
             file_name=self._file_name,

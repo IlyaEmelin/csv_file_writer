@@ -22,6 +22,7 @@ class KeyboardGenerator(BaseGenerator):
 
         return tuple(
             input(f"Введите {name}:")
+            # Вынеси в констунту - магическое значение
             for name in (
                 "фамилию",
                 "имя",

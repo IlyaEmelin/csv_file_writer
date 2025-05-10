@@ -18,6 +18,7 @@ class GeoType(Enum):
         Returns:
             Union[str | dict[str, str]]: объект для запроса geocode
         """
+        # Лучше добавить доп проперти для возврата нужного значения - будет читаемо
         if locator_field_name := self.value[0]:
             return {locator_field_name: geo_data}
         return geo_data
