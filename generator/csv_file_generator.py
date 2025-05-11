@@ -76,7 +76,6 @@ class CsvFileGenerator(BaseGenerator):
             file_line = csvfile.readline()
 
             if file_line:
-
                 while True:
                     file_line = csvfile.readline()
 

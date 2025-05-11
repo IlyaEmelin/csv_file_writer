@@ -95,7 +95,10 @@ class Compressor7zCompressor(BaseCompressor):
             )
             temp_file.flush()
 
-            logging.info("Add temporary file to archive 7z")
+            logging.info(
+                "Add temporary file to archive: %s",
+                full_file_name_7z,
+            )
             filters = [
                 {
                     "id": FILTER_LZMA2,

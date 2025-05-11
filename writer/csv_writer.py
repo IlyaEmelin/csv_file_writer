@@ -43,6 +43,6 @@ class CsvWriter(BaseWriter):
             file_name=self._file_name,
             file_type=self.file_type,
         )
-        logging.info("Open csv file.")
+        logging.info("Open %s file.", full_file_name_csv)
         with open(full_file_name_csv, "wb") as file_csv:
             self.write_data(file_csv, data_generator)

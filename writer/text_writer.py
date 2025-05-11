@@ -1,4 +1,5 @@
 from typing import Generator, BinaryIO
+import logging
 
 from core.constants import Constants
 from core.helper import get_path
@@ -40,10 +41,11 @@ class TextWriter(BaseWriter):
         Args:
             data_generator: генератор данных сохраняемый в архив
         """
-        full_file_name_csv = get_path(
+        full_file_name_txt = get_path(
             path_to_file=self._path_to_file,
             file_name=self._file_name,
             file_type=self.file_type,
         )
-        with open(full_file_name_csv, "wb") as file_txt:
+        logging.info("Open %s file.", full_file_name_txt)
+        with open(full_file_name_txt, "wb") as file_txt:
             self.write_data(file_txt, data_generator)

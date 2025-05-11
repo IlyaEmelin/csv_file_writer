@@ -48,13 +48,16 @@ class CompressorZipCompressor(BaseCompressor):
             )
             temp_file.flush()
 
-            logging.info("Create zip file.")
+            logging.info(
+                "Create result file: %s",
+                full_file_name_zip,
+            )
             with ZipFile(
                 full_file_name_zip,
                 "w",
                 compresslevel=compresslevel,
             ) as archive:
-                logging.info("Create result file.")
+                logging.info("add result file to zip.")
                 archive.write(
                     filename=temp_file.name,
                     arcname=full_file_name_csv,
