@@ -7,6 +7,7 @@ from .base_writer import BaseWriter
 
 
 class CsvWriter(BaseWriter):
+    """Класс который, создает csv файл"""
 
     @property
     def file_type(self) -> str:
@@ -40,7 +41,7 @@ class CsvWriter(BaseWriter):
         full_file_name_csv = get_path(
             path_to_file=self._path_to_file,
             file_name=self._file_name,
-            file_type=Constants.FileTypes.FILE_TYPE_CSV,
+            file_type=self.file_type,
         )
         logging.info("Open csv file.")
         with open(full_file_name_csv, "wb") as file_csv:

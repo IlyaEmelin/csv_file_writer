@@ -29,6 +29,7 @@ class CompressorZipCompressor(BaseCompressor):
             data_generator: генератор данных сохраняемый в архив
             compresslevel: уровень сжатия файла
         """
+        # не драй
         full_file_name_zip = get_path(
             path_to_file=self._path_to_file,
             file_name=self._file_name,
