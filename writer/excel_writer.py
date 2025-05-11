@@ -77,5 +77,5 @@ class ExcelWriter(BaseWriter):
 
         logging.info("Fill work book")
         work_book = self.__fill_work_book(data_generator)
-        logging.info("Save work book")
+        logging.info("Save work book: %s", full_file_name_xlsx)
         work_book.save(full_file_name_xlsx)
